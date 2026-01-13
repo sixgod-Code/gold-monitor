@@ -21,7 +21,8 @@ def get_gold_price() -> float:
         response.raise_for_status()
         
         data = response.json()
-        price = float(data['price'])
+        # CoinGecko format: {'pax-gold': {'usd': 2000.0}}
+        price = float(data['pax-gold']['usd'])
         logger.info(f"Fetched price: {price}")
         return price
         
