@@ -10,7 +10,8 @@ class Settings(BaseSettings):
     SELL_PRICE: float = 4750.0
     
     # API URL
-    GOLD_API_URL: str = "https://api.binance.com/api/v3/ticker/price?symbol=PAXGUSDT"
+    # 使用 CoinGecko API (无需 Key, 限制较少)
+    GOLD_API_URL: str = "https://api.coingecko.com/api/v3/simple/price?ids=pax-gold&vs_currencies=usd"
 
     model_config = SettingsConfigDict(
         env_file=".env", 
