@@ -1,0 +1,33 @@
+name: Gold Price Monitor
+
+on:
+  schedule:
+    # 每小时运行一次 (分针为 0)
+    - cron: '0 * * * *'
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  check-price:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Run Monitor
+      env:
+        TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+        TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        BUY_PRICE: ${{ vars.BUY_PRICE || '4550.0' }}
+        SELL_PRICE: ${{ vars.SELL_PRICE || '4750.0' }}
+      run: python main.py
